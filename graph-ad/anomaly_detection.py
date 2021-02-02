@@ -24,7 +24,6 @@ class TPGAD:
         self._num_anomalies = len(self._ground_truth)*2
         self._idx_to_graph = list(self._temporal_graph.graph_names())
         self._graph_to_idx = {name: idx for idx, name in enumerate(self._idx_to_graph)}
-        self._run_ad()
 
     def _load_ground_truth(self, gt_file):
         df = pd.read_csv(gt_file)
@@ -127,7 +126,7 @@ class TPGAD:
             raise RuntimeError(f"invalid value for params[beta_vectors][type], got {score_type}"
                                f" while valid options are: knn/gmm/local_outlier")
 
-    def _run_ad(self):
+    def run_ad(self):
         mx_dict = self._calc_tg_feature_matrix()
         concat_mx = np.vstack([mx for name, mx in mx_dict.items()])
         pearson_picker = PearsonFeaturePicker(concat_mx, size=self._params['feature_pair_picker']['num_pairs'],
@@ -138,12 +137,13 @@ class TPGAD:
 
         anomaly_picker = SimpleAnomalyPicker(self._temporal_graph, scores, self.data_name(),
                                              num_anomalies=self._num_anomalies)
-        anomaly_picker.build()
+        FN, TN, TP, FP, recall, precision, specificity, F1 = anomaly_picker.build()
         anomaly_picker.plot_anomalies_bokeh("", truth=self._ground_truth,
                                             info_text=str(self._params))
+        return FN, TN, TP, FP, recall, precision, specificity, F1
 
 
 if __name__ == "__main__":
-    TPGAD("params/enron_param.json")
+    TPGAD("params/enron_param.json").run_ad()
 
 

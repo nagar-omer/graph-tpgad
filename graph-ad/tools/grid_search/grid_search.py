@@ -1,9 +1,44 @@
 import hashlib
 import json
+import os
 from copy import deepcopy
+from datetime import datetime
 from itertools import product
-
 from anomaly_detection import TPGAD
+
+
+HEADER = ['dataset.name',
+          'dataset.directed',
+          'dataset.weight_col',
+          'features.max_connected',
+          'features.log',
+          'feature_pair_picker.num_pairs',
+          'feature_pair_picker.overlap_bar',
+          'beta_vectors.type',
+          'beta_vectors.window_size',
+          'score.type',
+          'score.window_size',
+          'score.params.gmm.n_components',
+          'score.params.local_outlier.n_neighbors',
+          'score.params.knn.k',
+          'fn', 'tn', 'tp', 'fp', 'recall', 'precision', 'specificity', 'f1'
+          ]
+
+
+def flatten_dict(d):
+    def items():
+        for key, value in d.items():
+            if isinstance(value, dict):
+                for subkey, subvalue in flatten_dict(value).items():
+                    yield key + "." + subkey, subvalue
+            else:
+                yield key, value
+    return dict(items())
+
+
+def config_to_str(config):
+    config = flatten_dict(config)
+    return [str(config.get(k, "--")) for k in HEADER]
 
 
 def extract_search_space(search_space, root="", search_flat_dict={}):
@@ -54,16 +89,29 @@ def config_iterator(default_params, search_space):
             yield config
 
 
-def run_grid(default_params, search_space):
+def run_grid(default_params, search_space, res_dir):
+    now = datetime.now().strftime("%d%m%y_%H%M%S")
+    default_params = default_params if type(default_params) is dict else json.load(open(default_params, "rt"))
+    res_filename = os.path.join(res_dir, f"{default_params['dataset']['name']}_grid_{now}.csv")
+    out = open(res_filename, "wt")
+    out.write(f"{','.join(HEADER)}\n")
     for config in config_iterator(default_params, search_space):
-        t = TPGAD(config)
-        t.pull_results()
-        write_results()
+        tpgad = TPGAD(config)
+        fn, tn, tp, fp, recall, precision, specificity, f1 = tpgad.run_ad()
+        table_row = config_to_str(config)
+        table_row[HEADER.index('fn')] = str(fn)
+        table_row[HEADER.index('tn')] = str(tn)
+        table_row[HEADER.index('tp')] = str(tp)
+        table_row[HEADER.index('fp')] = str(fp)
+        table_row[HEADER.index('recall')] = str(recall)
+        table_row[HEADER.index('precision')] = str(precision)
+        table_row[HEADER.index('specificity')] = str(specificity)
+        table_row[HEADER.index('f1')] = str(f1)
+        out.write(f"{','.join(table_row)}\n")
 
 
 if __name__ == '__main__':
     default_params = "C:/Users/ovedn/Desktop/Git/TPGAD/graph-ad/params/enron_param.json"
     search_space = "C:/Users/ovedn/Desktop/Git/TPGAD/graph-ad/tools/grid_search/search_space/search_space_params.json"
-    for config in config_iterator(default_params, search_space):
-        print(config)
-    # run_grid(default_params, search_space)
+    results_dir ="C:/Users/ovedn/Desktop/Git/TPGAD/grid_results"
+    run_grid(default_params, search_space, results_dir)
