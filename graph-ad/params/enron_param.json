@@ -1,13 +1,13 @@
 {
   "dataset": {
     "name": "Enron_Inc",
-    "filename": "C:\\Users\\ovedn\\Desktop\\Git\\louzounlab-graph_ad\\data\\Enroninc_Old.csv",
+    "filename": "C:\\Users\\kfirs\\lab\\TPGAD\\data\\Enroninc_Old.csv",
     "directed": true,
     "time_format": "%d-%b-%Y",
     "time_col": "time",
     "src_col": "src",
     "dst_col": "dst",
-    "weight_col": "weight",
+    "weight_col": null,
     "week_split": 0,
     "day_split": 1,
     "hour_split": 0,
@@ -15,28 +15,28 @@
     "sec_split": 0
   },
   "gt": {
-    "filename": "C:\\Users\\ovedn\\Desktop\\Git\\louzounlab-graph_ad\\data\\EnronInc_gt.csv"
+    "filename": "C:\\Users\\kfirs\\lab\\TPGAD\\data\\EnronInc_gt.csv"
   },
   "features": {
     "max_connected": false,
     "log": true
   },
   "feature_pair_picker": {
-    "num_pairs": 30,
-    "overlap_bar": 0.95
+    "num_pairs": 4,
+    "overlap_bar": 0.9
   },
   "beta_vectors": {
     "_type_comment": "mean_regression/regression/motif_ratio",
     "type": "mean_regression",
-    "window_size": 50
+    "window_size": 25
   },
   "score": {
     "_type_comment": "gmm/knn/local_outlier",
-    "type": "gmm",
-    "window_size": 30,
+    "type": "local_outlier",
+    "window_size": 25,
     "params": {
-      "gmm": {
-        "n_components": 4
+      "local_outlier": {
+        "n_neighbors": 10
       }
     }
   },
@@ -46,9 +46,8 @@
     "anomalies_file_name": "anomalies.csv"
   },
   "general": {
-    "logger_name": "default Anomaly logger",
     "FORCE_REBUILD_FEATURES": false,
     "dump_pkl": true,
-    "pkl_path": "C:\\Users\\ovedn\\Desktop\\Git\\louzounlab-graph_ad\\pkl"
+    "pkl_path": "C:\\Users\\kfirs\\lab\\TPGAD\\pkl"
   }
 }
