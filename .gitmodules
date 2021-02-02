@@ -1,0 +1,6 @@
+[submodule "graphs-package"]
+	path = graphs-package
+	url = https://github.com/ovednagar/graphs-package.git
+[submodule "graph-measures"]
+	path = graph-measures
+	url = https://github.com/ovednagar/graph-measures.git
