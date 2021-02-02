@@ -19,7 +19,7 @@
       <sourceFolder url="file://$MODULE_DIR$/graphs-package/multi_graph" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/graphs-package/temporal_graphs" isTestSource="false" />
     </content>
-    <orderEntry type="inheritedJdk" />
+    <orderEntry type="jdk" jdkName="Python 3.7" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
 </module>
