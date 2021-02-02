@@ -7,12 +7,8 @@
     "time_col": "time",
     "src_col": "src",
     "dst_col": "dst",
-    "weight_col": "weight",
-    "week_split": 0,
-    "day_split": 1,
-    "hour_split": 0,
-    "min_split": 0,
-    "sec_split": 0
+    "weight_col": null,
+    "day_split": 1
   },
   "gt": {
     "filename": "C:\\Users\\ovedn\\Desktop\\Git\\louzounlab-graph_ad\\data\\EnronInc_gt.csv"
@@ -26,7 +22,7 @@
     "overlap_bar": 0.95
   },
   "beta_vectors": {
-    "_type_comment": "mean_regression/regression/motif_ratio",
+    "_type_comment": "mean_regression/regression",
     "type": "mean_regression",
     "window_size": 50
   },
@@ -46,7 +42,6 @@
     "anomalies_file_name": "anomalies.csv"
   },
   "general": {
-    "logger_name": "default Anomaly logger",
     "FORCE_REBUILD_FEATURES": false,
     "dump_pkl": true,
     "pkl_path": "C:\\Users\\ovedn\\Desktop\\Git\\louzounlab-graph_ad\\pkl"
