@@ -46,12 +46,12 @@ class TPGAD:
             tg = TemporalGraph(self.data_name(), self._params['dataset']['filename'], self._params['dataset']['time_format'],
                                self._params['dataset']['time_col'], self._params['dataset']['src_col'],
                                self._params['dataset']['dst_col'],
-                               weight_col=self._params['dataset'].get('weight_col', None),
-                               weeks=self._params['dataset'].get('week_split', None),
-                               days=self._params['dataset'].get('day_split', None),
-                               hours=self._params['dataset'].get('hour_split', None),
-                               minutes=self._params['dataset'].get('min_split', None),
-                               seconds=self._params['dataset'].get('sec_split', None),
+                               weight_col=self._params['dataset'].get('weight_col', 0),
+                               weeks=self._params['dataset'].get('week_split', 0),
+                               days=self._params['dataset'].get('day_split', 0),
+                               hours=self._params['dataset'].get('hour_split', 0),
+                               minutes=self._params['dataset'].get('min_split', 0),
+                               seconds=self._params['dataset'].get('sec_split', 0),
                                directed=self._params['dataset']['directed'],
                                logger=self._logger).to_multi_graph()
 
