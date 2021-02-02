@@ -56,7 +56,9 @@ def config_iterator(default_params, search_space):
 
 def run_grid(default_params, search_space):
     for config in config_iterator(default_params, search_space):
-        TPGAD(config)
+        t = TPGAD(config)
+        t.pull_results()
+        write_results()
 
 
 if __name__ == '__main__':
