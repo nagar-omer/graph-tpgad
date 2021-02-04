@@ -111,7 +111,7 @@ def run_grid(default_params, search_space, res_dir):
 
 
 if __name__ == '__main__':
-    default_params = "C:/Users/ovedn/Desktop/Git/TPGAD/graph-ad/params/enron_param.json"
-    search_space = "C:/Users/ovedn/Desktop/Git/TPGAD/graph-ad/tools/grid_search/search_space/search_space_params.json"
-    results_dir ="C:/Users/ovedn/Desktop/Git/TPGAD/grid_results"
+    default_params = "C:\\Users\\kfirs\\lab\\TPGAD\\graph-ad\\params\\darpa_param.json"
+    search_space = "C:\\Users\\kfirs\\lab\\TPGAD\\graph-ad\\tools\\grid_search\\search_space\\search_space_params.json"
+    results_dir = "C:\\Users\\kfirs\\lab\\TPGAD\\graph-ad\\tools\\grid_search\\grid_results"
     run_grid(default_params, search_space, results_dir)

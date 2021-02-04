@@ -35,8 +35,8 @@
     "type": "gmm",
     "window_size": 50,
     "params": {
-      "local_outlier": {
-        "n_neighbors": 45
+      "gmm": {
+        "n_components": 5
       }
     }
   },

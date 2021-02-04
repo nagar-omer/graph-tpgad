@@ -2,7 +2,7 @@ from scipy import spatial
 import numpy as np
 from sklearn.mixture import GaussianMixture
 from sklearn.neighbors import LocalOutlierFactor
-
+from sklearn.ensemble import IsolationForest
 
 class GraphScore:
     def __init__(self, beta_matrix, database_name):
@@ -94,3 +94,21 @@ class LocalOutlierFactorScore(GraphScore):
             self._scores[graph_k] = self._clf._decision_function([self._beta_matrix[graph_k]])[0]
 
 
+class IsolationForestScore(GraphScore):
+    def __init__(self, beta_matrix, database_name, window_size=None, n_estimators=100):
+        self._split = beta_matrix.shape[0] if window_size is None else window_size
+        self._clf = IsolationForest(n_estimators=n_estimators, max_samples=1.0, contamination='auto', max_features=1.0, bootstrap=False, n_jobs=None, random_state=None, verbose=0, warm_start=False)
+        super(IsolationForestScore, self).__init__(beta_matrix, database_name)
+
+    def _calc_score(self):
+        num_graphs, num_ftr = self._beta_matrix.shape
+        interval = self._split
+        self._clf.fit(self._beta_matrix[:interval - 1])
+
+        for graph_k in range(num_graphs):
+            if graph_k >= interval:
+                from_graph = graph_k - interval
+                to_graph = graph_k
+                self._clf.fit(self._beta_matrix[from_graph:to_graph])
+            self._scores[graph_k] = self._clf.score_samples([self._beta_matrix[graph_k]])[0]
+        self._scores = 1 - np.abs(self._scores)

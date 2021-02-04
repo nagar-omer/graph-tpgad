@@ -10,7 +10,7 @@ from temporal_graph import TemporalGraph
 from tools.anomaly_picker import SimpleAnomalyPicker
 from tools.beta_calculator import LinearContext, LinearMeanContext
 from tools.features_picker import PearsonFeaturePicker
-from tools.graph_score import KnnScore, GmmScore, LocalOutlierFactorScore
+from tools.graph_score import KnnScore, GmmScore, LocalOutlierFactorScore, IsolationForestScore
 import json
 import pandas as pd
 
@@ -122,6 +122,9 @@ class TPGAD:
         elif score_type == "local_outlier":
             return LocalOutlierFactorScore(beta_matrix, self.data_name(), window_size=self._params['score']['window_size'],
                                            n_neighbors=self._params['score']['params']['local_outlier']['n_neighbors'])
+        elif score_type == "isolation_forest":
+            return IsolationForestScore(beta_matrix, self.data_name(), window_size=self._params['score']['window_size'],
+                                        n_estimators=self._params['score']['params']['isolation_forest']['n_estimators'])
         else:
             raise RuntimeError(f"invalid value for params[beta_vectors][type], got {score_type}"
                                f" while valid options are: knn/gmm/local_outlier")
@@ -137,13 +140,16 @@ class TPGAD:
 
         anomaly_picker = SimpleAnomalyPicker(self._temporal_graph, scores, self.data_name(),
                                              num_anomalies=self._num_anomalies)
-        FN, TN, TP, FP, recall, precision, specificity, F1 = anomaly_picker.build()
+        FN, TN, TP, FP, recall, precision, specificity, F1 = anomaly_picker.build(truth=self._ground_truth)
+        print("FN", FN, "TN", TN, "TP", TP, "FP", FP, "recall", recall, "precision", precision, "specificity",
+              specificity, "F1", F1)
         anomaly_picker.plot_anomalies_bokeh("", truth=self._ground_truth,
                                             info_text=str(self._params))
         return FN, TN, TP, FP, recall, precision, specificity, F1
 
 
 if __name__ == "__main__":
-    TPGAD("params/enron_param.json").run_ad()
+    TPGAD("params/twitter_security_param.json").run_ad()
+
 
 
