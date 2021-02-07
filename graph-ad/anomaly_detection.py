@@ -149,7 +149,7 @@ class TPGAD:
 
 
 if __name__ == "__main__":
-    TPGAD("params/twitter_security_param.json").run_ad()
+    TPGAD("params/secrepo_param.json").run_ad()
 
 
 

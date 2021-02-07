@@ -15,7 +15,7 @@
     "sec_split": 0
   },
   "gt": {
-    "filename": "C:\\Users\\kfirs\\lab\\TPGAD\\data\\EnronInc_gt.csv"
+    "filename": "C:\\Users\\kfirs\\lab\\TPGAD\\data\\Enron_Inc_gt.csv"
   },
   "features": {
     "max_connected": false,

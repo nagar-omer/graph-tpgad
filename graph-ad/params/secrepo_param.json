@@ -1,6 +1,6 @@
 {
   "dataset": {
-    "name": "Twitter_Security",
+    "name": "SecRepo",
     "filename": "C:\\Users\\kfirs\\lab\\TPGAD\\data\\SecRepo_auth_log.csv",
     "directed": true,
     "time_format": "%b_%d_%H:%M:%S",
