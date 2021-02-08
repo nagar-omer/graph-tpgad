@@ -47,7 +47,7 @@
   },
   "general": {
     "FORCE_REBUILD_FEATURES": false,
-    "dump_pkl": true,
+    "dump_pkl": false,
     "pkl_path": "C:\\Users\\kfirs\\lab\\TPGAD\\pkl"
   }
 }

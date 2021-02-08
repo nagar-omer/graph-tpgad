@@ -140,16 +140,16 @@ class TPGAD:
 
         anomaly_picker = SimpleAnomalyPicker(self._temporal_graph, scores, self.data_name(),
                                              num_anomalies=self._num_anomalies)
-        FN, TN, TP, FP, recall, precision, specificity, F1 = anomaly_picker.build(truth=self._ground_truth)
-        print("FN", FN, "TN", TN, "TP", TP, "FP", FP, "recall", recall, "precision", precision, "specificity",
-              specificity, "F1", F1)
-        anomaly_picker.plot_anomalies_bokeh("", truth=self._ground_truth,
-                                            info_text=str(self._params))
-        return FN, TN, TP, FP, recall, precision, specificity, F1
+        FN, TN, TP, FP, recall, precision, specificity, F1, auc, acc = anomaly_picker.build(truth=self._ground_truth)
+        print("FN", FN, "|| TN", TN, "|| TP", TP, "|| FP", FP, "|| recall", recall, "|| precision", precision, "|| specificity",
+              specificity, "|| F1", F1, "|| auc", auc, "|| acc", acc)
+        # anomaly_picker.plot_anomalies_bokeh("", truth=self._ground_truth,
+        #                                     info_text=str(self._params))
+        return FN, TN, TP, FP, recall, precision, specificity, F1, auc, acc
 
 
 if __name__ == "__main__":
-    TPGAD("params/secrepo_param.json").run_ad()
+    TPGAD("params/enron_param.json").run_ad()
 
 
 

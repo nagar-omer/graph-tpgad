@@ -97,7 +97,7 @@ def run_grid(default_params, search_space, res_dir):
     out.write(f"{','.join(HEADER)}\n")
     for config in config_iterator(default_params, search_space):
         tpgad = TPGAD(config)
-        fn, tn, tp, fp, recall, precision, specificity, f1 = tpgad.run_ad()
+        fn, tn, tp, fp, recall, precision, specificity, f1, auc, acc = tpgad.run_ad()
         table_row = config_to_str(config)
         table_row[HEADER.index('fn')] = str(fn)
         table_row[HEADER.index('tn')] = str(tn)
@@ -107,11 +107,13 @@ def run_grid(default_params, search_space, res_dir):
         table_row[HEADER.index('precision')] = str(precision)
         table_row[HEADER.index('specificity')] = str(specificity)
         table_row[HEADER.index('f1')] = str(f1)
+        table_row[HEADER.index('AUC')] = str(auc)
+        table_row[HEADER.index('accuracy')] = str(acc)
         out.write(f"{','.join(table_row)}\n")
 
 
 if __name__ == '__main__':
-    default_params = "C:\\Users\\kfirs\\lab\\TPGAD\\graph-ad\\params\\darpa_param.json"
+    default_params = "C:\\Users\\kfirs\\lab\\TPGAD\\graph-ad\\params\\secrepo_param.json"
     search_space = "C:\\Users\\kfirs\\lab\\TPGAD\\graph-ad\\tools\\grid_search\\search_space\\search_space_params.json"
     results_dir = "C:\\Users\\kfirs\\lab\\TPGAD\\graph-ad\\tools\\grid_search\\grid_results"
     run_grid(default_params, search_space, results_dir)

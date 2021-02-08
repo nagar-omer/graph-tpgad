@@ -49,8 +49,8 @@ class SimpleAnomalyPicker(AnomalyPicker):
         super(SimpleAnomalyPicker, self).__init__(graphs, scores_list, database_name)
 
         p = np.percentile(scores_list, 60)
-        # self._bar = np.sort(scores_list)[-num_anomalies - 1] if num_anomalies else 2*p
-        self._bar = 2 * p
+        self._bar = np.sort(scores_list)[-num_anomalies - 1] if num_anomalies else 2*p
+        # self._bar = 2 * p
 
     def build(self, truth=None):
         # splited has average of window [i - interval, i]
@@ -70,11 +70,16 @@ class SimpleAnomalyPicker(AnomalyPicker):
                 TP += 1
             elif x not in truth and x in self._anomalies:  # FP
                 FP += 1
+        t = np.zeros(len(self._scores_list))
+        for anomaly in list(truth.keys()):
+            t[anomaly] = truth[anomaly]
+        auc = sklearn.metrics.roc_auc_score(t, self._scores_list)
+        acc = (TP+TN)/(TP+TN+FP + FN + 1e-6)
         recall = TP / (TP + FN + 1e-6)
         precision = TP / (TP + FP + 1e-6)
         specificity = TN / (TN + FP + 1e-6)
         F1 = 2 * TP / ((2 * TP) + FP + FN + 1e-6)
-        return FN, TN, TP, FP, recall, precision, specificity, F1
+        return FN, TN, TP, FP, recall, precision, specificity, F1, auc, acc
 
     def auc_score(self, recalls=None, precisions=None, threshold_type='', drawing=False):
         # if recalls is None:
